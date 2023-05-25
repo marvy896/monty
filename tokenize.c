@@ -18,29 +18,28 @@ unsigned int array_len(void)
  */
 void tokerr(int error_status)
 {
-	int token_len = 0, i = 0;
-	char *exit_str = NULL;
-	char *new_token = NULL;
-
-	token_len = array_len();
-	new_token = malloc(sizeof(char *) * (token_len + 2));
-	if (!globalvar.token2)
-	{
-		stderr_malloc();
-		return;
-	}
-	while (i < token_len)
-	{
-		new_token[i] = globalvar.token2[i];
-		i++;
-	}
-	exit_str = get_int(error_status);
-	if (!exit_str)
-	{
-		free(globalvar.token2);
-		stderr_malloc();
-		return;
-	}
-	free(globalvar.token2);
-	globalvar.token2 = new_token;
+    int token_len = array_len();
+    
+    char *exit_str = get_int(error_status);
+    if (!exit_str)
+    {
+        stderr_malloc();
+        return;
+    }
+    
+    char *new_token = malloc(sizeof(char) * (token_len + 2));
+    if (!new_token)
+    {
+        stderr_malloc();
+        return;
+    }
+    
+    for (int i = 0; i < token_len; i++)
+    {
+        new_token[i] = globalvar.token2[i];
+    }
+    
+    free(globalvar.token2);
+    globalvar.token2 = new_token;
 }
+

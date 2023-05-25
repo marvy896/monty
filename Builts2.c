@@ -57,38 +57,38 @@ void pop(stack_t **stack, unsigned int line_number)
  */
 void add(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp = NULL;
-	stack_t *temp2 = NULL;
-	int i = 0, j = 0, flag = 0;
-
-	if (*stack == NULL || stack == NULL)
-	{
-		op_e(line_number, "add");
-	}
-	temp = *stack;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-		i++;
-		flag = 1;
-	}
-	temp2 = *stack;
-	while (j < (i - 1))
-	{
-		temp2 = temp2->next;
-		j++;
-	}
-	if (i == 0 && flag == 0)
-		free_dlistint(*stack), op_e(line_number, "add");
-	else
-	{
-		temp2->n = temp2->n + temp->n;
-		temp2->next = NULL;
-		free(temp);
-		temp = NULL;
-		return;
-	}
-
+    if (*stack == NULL || stack == NULL)
+    {
+        op_e(line_number, "add");
+        return;
+    }
+    
+    stack_t *temp = *stack;
+    stack_t *temp2 = NULL;
+    int count = 0;
+    
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+        count++;
+    }
+    
+    if (count == 0)
+    {
+        free_dlistint(*stack);
+        op_e(line_number, "add");
+        return;
+    }
+    
+    temp2 = *stack;
+    for (int i = 0; i < count - 1; i++)
+    {
+        temp2 = temp2->next;
+    }
+    
+    temp2->n += temp->n;
+    temp2->next = NULL;
+    free(temp);
 }
 /**
  * sub - subtracts the top e of stack from the 2nd top element of the stack.
